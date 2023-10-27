@@ -32,7 +32,7 @@
 ![image](https://github.com/Dortp68/LSTM-WGAN-stock-market-forecasting/assets/53114070/3cc8c8bf-1896-4803-9c4a-504479fdc24a)
 Обычно в таких задачах хорошо себя показывают рекуррентные сети, в частности LSTM. В обзорной статье [A Survey of Forex and Stock Price Prediction Using Deep Learning](https://www.mdpi.com/2571-5577/4/1/9) приведна статистика свежих исследований в этом направлении, больше всего работ связанных с рекуррентными и свёрточными нейросетями. Также в статье показано, что LSTM показывают неплохие результаты. Ещё полезные статьи, в которых используются рекуррентные сети [1](https://www.researchgate.net/publication/321503983_Stock_price_prediction_using_LSTM_RNN_and_CNN-sliding_window_model), [2](https://link.springer.com/chapter/10.1007/978-3-319-99501-4_14). В связи с этим в первой baseline попытке, я принял решение использовать сеть долгой краткосрочной памяти, с одномерным входом, то есть единственным признаком будет цена закрытия за прошлые n дней. Предсказываемое значение - цена закрытия на 1 день вперёд. В качестве данных использовался показатели акий Apple. Для оценки качества моделей используется метрика RMSE. RMSE_baseline = 246.097.![image](https://github.com/Dortp68/LSTM-WGAN-stock-market-forecasting/assets/53114070/073c2bef-386d-4a68-b304-c8addbc46e16)
  Результаты приведены в [ноутбуке](https://github.com/Dortp68/LSTM-WGAN-stock-market-forecasting/blob/main/Baseline.ipynb).
-## Multiviraible LSTM
+## Multivariate LSTM
 После отбора признаков, описанного выше, возникает необходимость повысить размерность на входе LSTM, а также улучшить её архитектуру. Сами данные должны быть приведены к виду: [количество семплов, time_steps, количество фичей]. Я использовал time_step 30 дней, так как много сгенерированых признаков имеют окно до 21 дней. Веса модели инициализировались из нормального распредеделния. Архитектура LSTM сети:
 ```
 LSTM(
@@ -78,3 +78,8 @@ Critic(
 Training dataset RMSE:1.459052644127705. Test dataset RMSE:10.758294215871336.
 
 По графику видно, что модель хорошо улавливает направление цены, но плохо её масштабирует. [Ноутбук](https://github.com/Dortp68/LSTM-WGAN-stock-market-forecasting/blob/main/GAN(LSTM%2BCNN).ipynb)
+| RMSE    | baseline            | LSTM multivariate | GAN     |
+| ------------- |:------------------:| -----:|-----:|
+| Apple    | 246.097    | 3.136 |10.758 |
+| All    | - |   6.073|  - |
+
